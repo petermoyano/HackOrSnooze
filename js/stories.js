@@ -71,6 +71,20 @@ function putStoriesOnPage() {
   $allStoriesList.show();
 }
 
+async function deleteStory(evt) {
+  console.debug("deleteStory");
+
+  const $closestLi = $(evt.target).closest("li");
+  const storyId = $closestLi.attr("id");
+
+  await storyList.remStory(currentUser, storyId);
+  // After deleting the story, rebuild story list
+  await putUserStoriesOnPage();
+}
+$ownStories.on("click", ".trash-can", deleteStory);
+
+
+
 
 async function feedStoryfromFormToAddStory(evt){
   evt.preventDefault();
@@ -104,6 +118,24 @@ function putFavoritesListOnPage() {
   }
 
   $favoritedStories.show();
+}
+
+function putOwnStoriesOnPage() {
+  console.debug("putOwnStoriesOnPage");
+  hidePageComponents();
+  $ownStories.empty();
+
+  if (currentUser.ownStories.length === 0) {
+    $ownStories.append("<h5>No stories added by user yet!</h5>");
+  } else {
+    // loop through all of users stories and generate HTML for them
+    for (let story of currentUser.ownStories) {
+      let $story = generateStoryMarkup(story, true);
+      $ownStories.append($story);
+    }
+  }
+
+  $ownStories.show();
 }
 
 /** Handle favorite/un-favorite a story */

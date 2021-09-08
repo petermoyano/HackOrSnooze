@@ -37,6 +37,7 @@ function updateNavOnLogin() {
 
 function navSubmit(){
   console.debug("navSubmit")
+  hidePageComponents();
   $submitForm.show();
 }
 
@@ -45,6 +46,24 @@ $navSubmit.on("click", navSubmit)
 function navAllFavorites(){
   console.debug("navAllFavorites")
   hidePageComponents();
+  putFavoritesListOnPage();
   
 }
 $navFavorites.on("click", navAllFavorites);
+
+function navOwnStories(evt) {
+  console.debug("navOwnStories", evt);
+  hidePageComponents();
+  putOwnStoriesOnPage();
+  $ownStories.show();
+}
+
+$body.on("click", "#nav-my-stories", navOwnStories);
+
+function navProfileClick(evt) {
+  console.debug("navProfileClick", evt);
+  hidePageComponents();
+  $userProfile.show();
+}
+
+$navUserProfile.on("click", navProfileClick);
